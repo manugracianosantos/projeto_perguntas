@@ -1,49 +1,56 @@
 import 'package:flutter/material.dart';
+import './questao.dart';
+import './resposta.dart';
 
 main() => runApp(PerguntaApp());
 
-class PerguntaAppState extends State<PerguntaApp> {
-  //? mudamos tudo que usa a variável ou a função para esse
-  var perguntaSelecionada = 0;
-
-  void responder() {
-    setState(() { //passa oque está sendo modificado
-      perguntaSelecionada++;
-
+class _PerguntaAppState extends State<PerguntaApp> {
+  var _perguntaSelecionada = 0;
+  void _responder() {
+    setState(() {
+      _perguntaSelecionada++;
     });
-    print(perguntaSelecionada);
+    print(_perguntaSelecionada);
   }
 
   @override
   Widget build(BuildContext context) {
-    final perguntas = [
-      //Para começar o desenvolvimento do nosso projeto, fizemos uma Lista de perguntas para
-      //chama-las dps no código, para isso usamos: List<String>. List<Tipodecoisaquetemnalista>
-      //mas como temos Inferência nn é necessário
-      'Qual sua cor favorita?',
-      'Qual é o seu animal preferido? ',
+    final List<Map<String, Object>> perguntas = [//???
+      {
+        'texto': 'Qual sua cor favorita?',
+        'resposta': ['Preto', 'Vermelho', 'Verde', 'Branco'],
+      },
+      {
+        'texto': 'Qual é o seu animal preferido?' ,
+        'resposta': ['Coelho', 'Cobra', 'Elefante', 'Leão'],
+      },
+      {
+        'texto': 'Qual o seu instrutor favorito?',
+        'reposta': ['Maria', 'João', 'Léo', 'Pedro'],
+      }
     ];
     return MaterialApp(
       home: Scaffold(
-        appBar: AppBar(title: Text('Perguntas')),
+        appBar: AppBar(
+          backgroundColor: Colors.pink,
+          title: Center(
+            //centraliza o texto
+            child: Text(
+              'Questionário!',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+                fontSize: 30.0,
+              ),
+            ),
+          ),
+        ),
         body: Column(
           children: <Widget>[
-            //Vários widgets no Flutter só podem ter um filho. O Column() nn é um deles.
-            //Usamos o children que funciona quase como uma lista de componentes como, botão,
-            //texto...
-            Text(perguntas[perguntaSelecionada]),
-            ElevatedButton(
-              child: Text('Pergunta 1'),
-              onPressed: responder, //função
-            ),
-            ElevatedButton(
-              child: Text('Pergunta 2'),
-              onPressed: responder, //função
-            ),
-            ElevatedButton(
-              child: Text('Pergunta 3'),
-              onPressed: responder, //função
-            ),
+            Questao(perguntas[_perguntaSelecionada]['texto'].toString()),
+            Resposta('Resposta 1', _responder),
+            Resposta('Resposta 2', _responder),
+            Resposta('Resposta 3', _responder),
           ],
         ),
       ),
@@ -52,7 +59,7 @@ class PerguntaAppState extends State<PerguntaApp> {
 }
 
 class PerguntaApp extends StatefulWidget {
-  PerguntaAppState createState() {
-    return PerguntaAppState();
+  _PerguntaAppState createState() {
+    return _PerguntaAppState();
   }
 }
